@@ -2,6 +2,7 @@
 - Couple or friends can decide the movie for tonight!
 - By choosing two movies, 10 results will be generated
 - Implemented two APIs: TMDB and OpenAI
+- Implemented node packages: Express, OpenAI
 ![Movie Night page](https://raw.githubusercontent.com/ceciaups/Movie_Night/master/public/movie_night.png)
 
 ## Features
