@@ -1,0 +1,20 @@
+extends layout 
+
+
+block main-content 
+  h1.page-title ❤ Movie Night ❤
+  #movie-container
+    .movie-item
+      .poster#poster-1 Pick A Movie
+      //- form(action="#" onsubmit="return searchMovie('1')" id="form-search-1" class="form-search") 
+      input(type="text" placeholder="Pick A Movie!" id="input-1" class="input")
+        //- input(type="submit" value="Search")
+    #plus
+    .movie-item
+      .poster#poster-2 Pick A Movie
+      //- form(action="#" onsubmit="return searchMovie('2')" id="form-search-2" class="form-search") 
+      input(type="text" placeholder="Pick A Movie!" id="input-2" class="input")
+        //- input(type="submit" value="Search")
+    #search-container
+  #result-container
+  
