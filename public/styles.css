@@ -57,12 +57,12 @@ footer {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: max(1vw, 12px);
+  gap: max(1vw, 10px);
 }
 .poster {
   border-radius: 5px;
-  width: max(12vw, 150px);
-  height: max(18vw, 225px);
+  width: max(12vw, 140px);
+  height: max(18vw, 210px);
   background-color: var(--red-800);
   color: var(--white);
   font-size: var(--size-m);
@@ -76,7 +76,7 @@ label {
 }
 input {
   box-sizing: border-box;
-  width: max(12vw, 150px);
+  width: max(12vw, 140px);
   background: var(--red-800);
   color: var(--red-500);
   border-image: none;
@@ -104,30 +104,39 @@ input:focus {
 }
 
 #plus {
-  width: max(4vw, 51px);
-  height: max(4vw, 51px);
+  width: max(4vw, 50px);
+  height: max(4vw, 50px);
   position: relative;
 }
-
 #plus:before, #plus:after {
  content: "";
  position: absolute;
  z-index: -1;
- background: var(--red-300);
+ background: var(--red-200);
 }
-
 #plus:before {
  left: 50%;
  width: 30%;
  margin-left: -15%;
  height: 100%;
 }
-
 #plus:after {
+ left: 0;
  top: 50%;
  height: 30%;
  margin-top: -15%;
  width: 100%;
+}
+.rotate {
+  animation: rotation 2s infinite linear;
+}
+@keyframes rotation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 #search-container {
@@ -136,11 +145,7 @@ input:focus {
   background-color: var(--red-800);
   color: var(--white);
   text-decoration: none;
-  width: calc(max(12vw, 150px) * 2 + max(6vw, 75px));
-}
-#result-container {
-  background-color: var(--red-800);
-  color: var(--white);
+  width: calc(max(12vw, 140px) * 2 + max(6vw, 70px));
 }
 .search-item {
   background: none;
@@ -159,6 +164,18 @@ input:focus {
 .search-item:hover {
   background-color: var(--red-700);
 }
+.search-poster {
+  height: 60px;
+}
+
+/* 3. RESULT STYLES */
+#message-container {
+  padding: 0.5em;
+}
+#result-container {
+  display: none;
+  color: var(--white);
+}
 .result-item {
   text-align: left;
   padding: 0.5em 1em;
@@ -167,11 +184,19 @@ input:focus {
   gap: 0.5em;
   width: 100%;
 }
-.search-poster {
-  height: 60px;
+.result-item-1 {
+  background-color: var(--red-800);
+}
+.result-item-2 {
+  background-color: var(--red-700);
 }
 .result-poster {
-  height: 100px;
+  height: 190px;
+}
+.result-desciption {
+  display: flex;
+  flex-flow: column;
+  gap: 0.5em;
 }
 
  /* 4. MEDIA QUERIES */

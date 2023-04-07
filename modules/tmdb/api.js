@@ -1,8 +1,8 @@
 const tmdb = "https://api.themoviedb.org/3";
-const api = `api_key=${process.env.TMBD_KEY}`;
+const key = `api_key=${process.env.TMBD_KEY}`;
 
 async function searchMovie(title) {
-  let reqUrl = `${tmdb}/search/movie?${api}&query=${title}`;
+  let reqUrl = `${tmdb}/search/movie?${key}&query=${title}`;
 
   var response = await fetch(
     reqUrl,
@@ -18,7 +18,23 @@ async function searchMovie(title) {
 }
 
 async function getMovieById(id) {
-  let reqUrl = `${tmdb}/movie/${id}?${api}`;
+  let reqUrl = `${tmdb}/movie/${id}?${key}`;
+
+  var response = await fetch(
+    reqUrl,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }
+  );
+  
+  return await response.json();
+}
+
+async function getGenreList() {
+  let reqUrl = `${tmdb}/genre/movie/list?${key}`;
 
   var response = await fetch(
     reqUrl,
@@ -35,5 +51,6 @@ async function getMovieById(id) {
 
 module.exports = {
   searchMovie,
-  getMovieById
+  getMovieById,
+  getGenreList
 };

@@ -31,6 +31,10 @@ app.get("/movie/:id", async (req, res) => {
   let movie = await tmdb.getMovieById(req.params.id);
   res.send(movie);
 });
+app.get("/genrelist", async (req, res) => {
+  let genreList = await tmdb.getGenreList();
+  res.send(genreList);
+});
 app.get("/movienight/:title1/:title2", async (req, res) => {
   let movieList = await chatgpt.chatCompletion(req.params.title1, req.params.title2);
   res.send(movieList);

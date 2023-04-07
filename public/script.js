@@ -1,4 +1,6 @@
-window.onload = function() {
+window.onload = async function() {
+
+  genreList = (await getGenreList()).genres;
 
   const input1 = document.getElementById("input-1");
   const input2 = document.getElementById("input-2");
@@ -20,6 +22,7 @@ window.onload = function() {
 
 var searchNumber = 10;
 var resultNumber = 10;
+var genreList = [];
 
 async function searchMovie(user) {
   title = document.getElementById("input-" + user).value.trim().replace(/\s+/g, '+');
@@ -146,7 +149,7 @@ function displaySelect(user, id, src) {
     posterImg.style.objectFit = "cover";
   }
 
-  input.placeholder = "Choose New Movie";
+  input.placeholder = "Choose Again";
   movieNight();
 
   search.style.display = "none";
@@ -168,27 +171,39 @@ async function movieNight() {
   let posterImg2 = document.getElementsByClassName("poster-img-2")[0];
 
   if (posterImg1 && posterImg2) {
+    // Loading state
+    let plus = document.getElementById("plus");
+    let message = document.getElementById("message-container");
+    let result = document.getElementById("result-container");
+    plus.classList.add("rotate");
+    message.innerHTML = "Getting 10 movies for tonight...";
+    result.innerHTML = "";
 
     let name1 = (await getMovie(posterImg1.id)).title;
     let name2 = (await getMovie(posterImg2.id)).title;
 
     var response = await fetch(`/movienight/${name1.replace(/\s+/g, '+')}/${name2.replace(/\s+/g, '+')}`);
     var data = await response.text();
-    displayResult(data);
+    await displayResult(data);
+  
+    plus.classList.remove("rotate");
+    message.innerHTML = "10 movies for tonight:";
   }
 }
 
 // Display resulted movie
 async function displayResult(data) {
-  let delimiter = /\d+.\s/;
+  let delimiter = /\d+\.\s/;
   let movies = data.split(delimiter);
   movies.shift();
 
   let result = document.getElementById("result-container");
-  result.innerHTML = "";
 
   for (var i = 0; i < resultNumber; i++) {
-    let movie = movies[i].slice(0, -1).replace(/\s+/g, '+');
+    let movie = movies[i].trim().replace(/\s+/g, '+');
+    if (movie[movie.length - 1] === ".") {
+      movie = movie.slice(0, -1);
+    }
     let iData = await findMovie(movie);
 
     if (iData) {
@@ -202,12 +217,36 @@ async function displayResult(data) {
         poster.src = "https://image.tmdb.org/t/p/w500/" + iData.results[0].poster_path;
         poster.alt = "Poster of " + iData.results[0].title;
 
-        description.innerHTML = iData.results[0].title + "</br>";
-        description.innerHTML += iData.results[0].release_date;
+        let title = document.createElement("h3");
+        title.innerHTML = iData.results[0].title + " (" + iData.results[0].release_date + ")";
+        description.appendChild(title);
+
+        let rating = document.createElement("p");
+        rating.innerHTML = Math.round(iData.results[0].vote_average * 100) / 100 + "/10.00";
+        description.appendChild(rating);
+
+        let overview = document.createElement("p");
+        overview.innerHTML = iData.results[0].overview;
+        description.appendChild(overview);
+
+        let genre = document.createElement("p");
+        for (let j = 0; j < iData.results[0].genre_ids.length; j++) {
+          if (j) {
+            genre.innerHTML += " | ";
+          }
+          for (let k = 0; k < genreList.length; k++) {
+            if (iData.results[0].genre_ids[j] == genreList[k].id) {
+              genre.innerHTML += genreList[k].name;
+            }
+          }
+        }
+        description.appendChild(genre);
+        description.classList.add("result-desciption");
   
         resultMovie.appendChild(poster);
         resultMovie.appendChild(description);
         resultMovie.classList.add("result-item");
+        resultMovie.classList.add("result-item-" + (i % 2 + 1));
         resultMovie.id = iData.results[0].id;
 
         result.appendChild(resultMovie);
@@ -225,5 +264,10 @@ async function findMovie(title) {
 
 async function getMovie(id) {
   var response = await fetch(`/movie/${id}`);
+  return await response.json();
+}
+
+async function getGenreList() {
+  var response = await fetch(`/genrelist`);
   return await response.json();
 }
