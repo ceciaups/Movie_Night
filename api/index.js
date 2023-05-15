@@ -13,10 +13,10 @@ const app = express();
 const port = process.env.PORT || 8000;
 
 //define important folders
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "pug");
 //setup public folder
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../public")));
 
 //PAGE ROUTES
 app.get("/api", async (req, res) => {
