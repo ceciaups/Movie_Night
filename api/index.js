@@ -5,8 +5,8 @@ const dotenv = require("dotenv");
 // const chatgpt = require("openai");
 
 dotenv.config();
-const chatgpt = require("./modules/chatgpt/api");
-const tmdb = require("./modules/tmdb/api");
+const chatgpt = require("../modules/chatgpt/api");
+const tmdb = require("../modules/tmdb/api");
 
 //set up Express app
 const app = express();
@@ -19,23 +19,23 @@ app.set("view engine", "pug");
 app.use(express.static(path.join(__dirname, "public")));
 
 //PAGE ROUTES
-app.get("/", async (req, res) => {
+app.get("/api", async (req, res) => {
   let movieList = await tmdb.searchMovie("avengers");
   res.render("index", { title: "Movies", movies: movieList.results });
 });
-app.get("/search/:title", async (req, res) => {
+app.get("/api/search/:title", async (req, res) => {
   let movieList = await tmdb.searchMovie(req.params.title);
   res.send(movieList);
 });
-app.get("/movie/:id", async (req, res) => {
+app.get("/api/movie/:id", async (req, res) => {
   let movie = await tmdb.getMovieById(req.params.id);
   res.send(movie);
 });
-app.get("/genrelist", async (req, res) => {
+app.get("/api/genrelist", async (req, res) => {
   let genreList = await tmdb.getGenreList();
   res.send(genreList);
 });
-app.get("/movienight/:title1/:title2", async (req, res) => {
+app.get("/api/movienight/:title1/:title2", async (req, res) => {
   let movieList = await chatgpt.chatCompletion(req.params.title1, req.params.title2);
   res.send(movieList);
 });
@@ -44,5 +44,3 @@ app.get("/movienight/:title1/:title2", async (req, res) => {
 app.listen(port, () => {
   console.log(`Listening on http://localhost:${port}`);
 });
-
-

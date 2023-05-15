@@ -1,10 +1,10 @@
 {
-  "name": "jproj-puiszeau",
+  "name": "movie-night",
   "version": "1.0.0",
-  "description": "Project using Express and Node and TMDB API",
-  "main": "index.js",
+  "description": "Project using Express and Node, with TMDB API and ChatGPT API",
+  "main": "api/index.js",
   "scripts": {
-    "dev": "nodemon ./index.js",
+    "dev": "nodemon ./api/index.js",
     "ui": "browser-sync start --config bs-config.js"
   },
   "author": "Ceci Pui Sze Au",
