@@ -44,3 +44,5 @@ app.get("/api/movienight/:title1/:title2", async (req, res) => {
 app.listen(port, () => {
   console.log(`Listening on http://localhost:${port}`);
 });
+
+module.exports = app;
