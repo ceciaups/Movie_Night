@@ -23,6 +23,11 @@ app.get("/api", async (req, res) => {
   let movieList = await tmdb.searchMovie("avengers");
   res.render("index", { title: "Movies", movies: movieList.results });
 });
+
+app.get("/api/testing", (req, res) => {
+  res.send("hello world");
+});
+
 app.get("/api/search/:title", async (req, res) => {
   let movieList = await tmdb.searchMovie(req.params.title);
   res.send(movieList);
