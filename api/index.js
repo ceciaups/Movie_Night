@@ -19,28 +19,28 @@ app.set("view engine", "pug");
 app.use(express.static(path.join(__dirname, "../public")));
 
 //PAGE ROUTES
-app.get("/api", async (req, res) => {
+app.get("", async (req, res) => {
   let movieList = await tmdb.searchMovie("avengers");
   res.render("index", { title: "Movies", movies: movieList.results });
 });
 
-app.get("/api/testing", (req, res) => {
+app.get("/testing", (req, res) => {
   res.send("hello world");
 });
 
-app.get("/api/search/:title", async (req, res) => {
+app.get("/search/:title", async (req, res) => {
   let movieList = await tmdb.searchMovie(req.params.title);
   res.send(movieList);
 });
-app.get("/api/movie/:id", async (req, res) => {
+app.get("/movie/:id", async (req, res) => {
   let movie = await tmdb.getMovieById(req.params.id);
   res.send(movie);
 });
-app.get("/api/genrelist", async (req, res) => {
+app.get("/genrelist", async (req, res) => {
   let genreList = await tmdb.getGenreList();
   res.send(genreList);
 });
-app.get("/api/movienight/:title1/:title2", async (req, res) => {
+app.get("/movienight/:title1/:title2", async (req, res) => {
   let movieList = await chatgpt.chatCompletion(req.params.title1, req.params.title2);
   res.send(movieList);
 });
